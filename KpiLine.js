@@ -152,15 +152,17 @@ define([
                     },
                     tooltip: {
                         formatter: function () {
-                            var s = '<b>' + this.x + '</b><br/>';
-                            s += this.series.name + ': ' + this.y;
+                            var s = '<b>' + this.x + '</b>';
+                            s += '<br/> &#8226; '
+                                + this.series.name + ': ' + this.y;
                             if ($scope.layout.qHyperCube.qMeasureInfo.length > 3) {
-                                s += '<br/>'
+                                s += '<br/> &#8226; '
                                     + $scope.layout.qHyperCube.qMeasureInfo[3].qFallbackTitle + ': ' + this.point.extraVal1;
                             }
 
                             return s;
-                        }
+                        },
+                        useHTML: true
                     }
                 });
             };
