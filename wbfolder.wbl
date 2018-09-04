@@ -1,4 +1,6 @@
-TnkKpiLine.js;
-TnkKpiLine.qext;
+KpiLine.js;
+KpiLine.qext;
+initial-properties.js
+properties.js
 style.css;
 template.html

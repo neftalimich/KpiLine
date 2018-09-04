@@ -72,16 +72,17 @@ define([
                 angular.forEach($scope.layout.qHyperCube.qDataPages[0].qMatrix, function (value, key) {
                     seriesAux[0].data.push({
                         y: parseFloat(value[dimLength].qText),
+                        extraVal1: value.length > 3 ? value[dimLength + 3].qText : null,
                         color: value[dimLength].qText,
                         marker: {
-                            fillColor: value[dimLength + 1].qText,
-                            lineColor: value[dimLength + 2].qText,
+                            fillColor: value.length > 1 ? value[dimLength + 1].qText : "rgba(0,0,0,0)",
+                            lineColor: value.length > 2 ? value[dimLength + 2].qText : "rgba(0,0,0,0)",
                             lineWidth: 2,
                             radius: $scope.layout.props.chartPointRadius,
                             states: {
                                 hover: {
-                                    fillColor: value[dimLength + 1].qText,
-                                    lineColor: value[dimLength + 2].qText,
+                                    fillColor: value.length > 2 ? value[dimLength + 1].qText : "rgba(0,0,0,0)",
+                                    lineColor: value.length > 3 ? value[dimLength + 2].qText : "rgba(0,0,0,0)",
                                     radius: $scope.layout.props.chartPointHoverRadius
                                 }
                             }
@@ -148,6 +149,18 @@ define([
                                 //maxWidth: 500
                             }
                         }]
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            var s = '<b>' + this.x + '</b><br/>';
+                            s += this.series.name + ': ' + this.y;
+                            if ($scope.layout.qHyperCube.qMeasureInfo.length > 3) {
+                                s += '<br/>'
+                                    + $scope.layout.qHyperCube.qMeasureInfo[3].qFallbackTitle + ': ' + this.point.extraVal1;
+                            }
+
+                            return s;
+                        }
                     }
                 });
             };

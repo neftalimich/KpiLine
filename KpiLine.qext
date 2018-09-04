@@ -1,9 +1,9 @@
 {
-  "name": "Tnk_Kpi_Line",
+  "name": "KpiLine",
   "description": "",
   "icon": "line-chart",
   "type": "visualization",
-  "version": "2.0.3",
+  "version": "2.2.0",
   "author": "Neftalí Michelet",
   "homepage": "",
   "keywords": "qlik-sense, visualization",
