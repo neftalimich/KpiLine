@@ -1,0 +1,15 @@
+{
+  "name": "Tnk_Kpi_Line",
+  "description": "",
+  "icon": "line-chart",
+  "type": "visualization",
+  "version": "2.0.3",
+  "author": "Neftalí Michelet",
+  "homepage": "",
+  "keywords": "qlik-sense, visualization",
+  "license": "",
+  "repository": "",
+  "dependencies": {
+    "qlik-sense": ">=3.0.x"
+  }
+}

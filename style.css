@@ -1,0 +1,17 @@
+
+.qv-object-TnkKpiLine .highcharts-credits {
+    visibility: hidden !important;
+}
+
+
+.qv-object-TnkKpiLine .text-success {
+    color: green;
+}
+
+.qv-object-TnkKpiLine .text-danger {
+    color: red;
+}
+
+.qv-object-TnkKpiLine .text-info {
+    color: dodgerblue;
+}
