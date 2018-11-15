@@ -28,7 +28,8 @@ define([
             return qlik.Promise.resolve();
         },
         controller: ['$scope', function ($scope) {
-            console.log("layout", $scope.layout);
+            console.log("KpiLine-layout", $scope.layout);
+            $scope.chartId = "chartContainer-" + Math.floor(Math.random() * 100 + 1) + "-" + $scope.layout.qInfo.qId;
 
             angular.element(document).ready(function () {
                 $scope.LoadChart();
@@ -54,8 +55,6 @@ define([
             });
 
             $scope.LoadChart = function () {
-                let key = $scope.layout.qInfo.qId;
-
                 let dimLength = $scope.layout.qHyperCube.qDimensionInfo.length;
                 let meaLength = $scope.layout.qHyperCube.qMeasureInfo.length;
 
@@ -72,17 +71,17 @@ define([
                 angular.forEach($scope.layout.qHyperCube.qDataPages[0].qMatrix, function (value, key) {
                     seriesAux[0].data.push({
                         y: parseFloat(value[dimLength].qText),
-                        extraVal1: value.length > 3 ? value[dimLength + 3].qText : null,
+                        extraVal1: value.length > dimLength + 3 ? value[dimLength + 3].qText : null,
                         color: value[dimLength].qText,
                         marker: {
-                            fillColor: value.length > 1 ? value[dimLength + 1].qText : "rgba(0,0,0,0)",
-                            lineColor: value.length > 2 ? value[dimLength + 2].qText : "rgba(0,0,0,0)",
+                            fillColor: value.length > dimLength + 1 ? value[dimLength + 1].qText : "rgba(0,0,0,0)",
+                            lineColor: value.length > dimLength + 2 ? value[dimLength + 2].qText : "rgba(0,0,0,0)",
                             lineWidth: 2,
                             radius: $scope.layout.props.chartPointRadius,
                             states: {
                                 hover: {
-                                    fillColor: value.length > 2 ? value[dimLength + 1].qText : "rgba(0,0,0,0)",
-                                    lineColor: value.length > 3 ? value[dimLength + 2].qText : "rgba(0,0,0,0)",
+                                    fillColor: value.length > dimLength + 1 ? value[dimLength + 1].qText : "rgba(0,0,0,0)",
+                                    lineColor: value.length > dimLength + 2 ? value[dimLength + 2].qText : "rgba(0,0,0,0)",
                                     radius: $scope.layout.props.chartPointHoverRadius
                                 }
                             }
@@ -90,6 +89,10 @@ define([
                     });
                     categoriesAux.push(value[dimLength - 1].qText);
                 });
+
+                //categoriesAux = categoriesAux.filter(function onlyUnique(value, index, self) {
+                //    return self.indexOf(value) === index;
+                //});
 
                 let xAxisAux = {
                     categories: categoriesAux
@@ -99,6 +102,8 @@ define([
                         text: null
                     }
                 };
+
+                //console.log("data",xAxisAux, yAxisAux, seriesAux);
 
                 if (!$scope.layout.props.chartAxesX) {
                     xAxisAux.labels = { enabled: false };
@@ -120,7 +125,7 @@ define([
                 var chart = new Highcharts.Chart({
                     chart: {
                         type: 'line',
-                        renderTo: 'chartContainer-' + key,
+                        renderTo: $scope.chartId,
                         zoomType: 'xy',
                         title: ''
                     },
@@ -163,7 +168,8 @@ define([
                             return s;
                         },
                         useHTML: true
-                    }
+                    },
+                    credits: { enabled: false }
                 });
             };
         }]

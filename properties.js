@@ -10,7 +10,7 @@ define([], function () {
             },
             measures: {
                 uses: "measures",
-                min: 2,
+                min: 1,
                 max: 4,
                 items: {
                     lineColor: {
