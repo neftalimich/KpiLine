@@ -22,14 +22,11 @@ define([
             //setup scope.table
             if (!this.$scope.table) {
                 this.$scope.table = qlik.table(this);
-                console.log("table", this.$scope.table);
             }
 
             return qlik.Promise.resolve();
         },
         controller: ['$scope', function ($scope) {
-            console.log("KpiLine-layout", $scope.layout);
-            $scope.chartId = "chartContainer-" + Math.floor(Math.random() * 100 + 1) + "-" + $scope.layout.qInfo.qId;
 
             angular.element(document).ready(function () {
                 $scope.LoadChart();
@@ -37,13 +34,11 @@ define([
 
             $scope.$watchCollection("layout.qHyperCube.qDataPages", function (newValue) {
                 angular.element(document).ready(function () {
-                    //console.log("qDataPages");
                     $scope.LoadChart();
                 });
             });
             $scope.$watchCollection("layout.qHyperCube.qMeasureInfo", function (newValue) {
                 angular.element(document).ready(function () {
-                    //console.log("qMeasureInfo");
                     $scope.LoadChart();
                 });
             });
@@ -55,6 +50,8 @@ define([
             });
 
             $scope.LoadChart = function () {
+                let key = $scope.layout.qInfo.qId;
+
                 let dimLength = $scope.layout.qHyperCube.qDimensionInfo.length;
                 let meaLength = $scope.layout.qHyperCube.qMeasureInfo.length;
 
@@ -71,17 +68,17 @@ define([
                 angular.forEach($scope.layout.qHyperCube.qDataPages[0].qMatrix, function (value, key) {
                     seriesAux[0].data.push({
                         y: parseFloat(value[dimLength].qText),
-                        extraVal1: value.length > dimLength + 3 ? value[dimLength + 3].qText : null,
+                        extraVal1: value.length > 3 ? value[dimLength + 3].qText : null,
                         color: value[dimLength].qText,
                         marker: {
-                            fillColor: value.length > dimLength + 1 ? value[dimLength + 1].qText : "rgba(0,0,0,0)",
-                            lineColor: value.length > dimLength + 2 ? value[dimLength + 2].qText : "rgba(0,0,0,0)",
+                            fillColor: value.length > 1 ? value[dimLength + 1].qText : "rgba(0,0,0,0)",
+                            lineColor: value.length > 2 ? value[dimLength + 2].qText : "rgba(0,0,0,0)",
                             lineWidth: 2,
                             radius: $scope.layout.props.chartPointRadius,
                             states: {
                                 hover: {
-                                    fillColor: value.length > dimLength + 1 ? value[dimLength + 1].qText : "rgba(0,0,0,0)",
-                                    lineColor: value.length > dimLength + 2 ? value[dimLength + 2].qText : "rgba(0,0,0,0)",
+                                    fillColor: value.length > 2 ? value[dimLength + 1].qText : "rgba(0,0,0,0)",
+                                    lineColor: value.length > 3 ? value[dimLength + 2].qText : "rgba(0,0,0,0)",
                                     radius: $scope.layout.props.chartPointHoverRadius
                                 }
                             }
@@ -90,25 +87,14 @@ define([
                     categoriesAux.push(value[dimLength - 1].qText);
                 });
 
-                //categoriesAux = categoriesAux.filter(function onlyUnique(value, index, self) {
-                //    return self.indexOf(value) === index;
-                //});
-
                 let xAxisAux = {
                     categories: categoriesAux
                 };
                 let yAxisAux = {
                     title: {
                         text: null
-                    },
-                    labels: {
-                        style: {
-                            fontSize: $scope.layout.props.yAxisLabelPrimaryFontSize
-                        }
                     }
                 };
-
-                //console.log("data",xAxisAux, yAxisAux, seriesAux);
 
                 if (!$scope.layout.props.chartAxesX) {
                     xAxisAux.labels = { enabled: false };
@@ -127,10 +113,11 @@ define([
                 }
 
 
+
                 var chart = new Highcharts.Chart({
                     chart: {
                         type: 'line',
-                        renderTo: $scope.chartId,
+                        renderTo: 'chartContainer-' + key,
                         zoomType: 'xy',
                         title: ''
                     },
@@ -174,7 +161,9 @@ define([
                         },
                         useHTML: true
                     },
-                    credits: { enabled: false }
+					credits: {
+						enabled: false
+					}
                 });
             };
         }]
