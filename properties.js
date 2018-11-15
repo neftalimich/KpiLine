@@ -91,6 +91,12 @@ define([], function () {
                                 }],
                                 defaultValue: true
                             },
+                            yAxisLabelPrimaryFontSize: {
+                                type: "number",
+                                ref: "props.yAxisLabelPrimaryFontSize",
+                                label: "Y Axis Primary Label FontSize (px)",
+                                defaultValue: 11
+                            },
                             chartLineColor: {
                                 type: "string",
                                 ref: "props.chartLineColor",
