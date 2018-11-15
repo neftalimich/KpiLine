@@ -100,6 +100,11 @@ define([
                 let yAxisAux = {
                     title: {
                         text: null
+                    },
+                    labels: {
+                        style: {
+                            fontSize: $scope.layout.props.yAxisLabelPrimaryFontSize
+                        }
                     }
                 };
 
