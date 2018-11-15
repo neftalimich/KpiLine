@@ -10,7 +10,7 @@ define([], function () {
             },
             measures: {
                 uses: "measures",
-                min: 1,
+                min: 2,
                 max: 4,
                 items: {
                     lineColor: {
@@ -90,12 +90,6 @@ define([], function () {
                                     label: "No"
                                 }],
                                 defaultValue: true
-                            },
-                            yAxisLabelPrimaryFontSize: {
-                                type: "number",
-                                ref: "props.yAxisLabelPrimaryFontSize",
-                                label: "Y Axis Primary Label FontSize (px)",
-                                defaultValue: 11
                             },
                             chartLineColor: {
                                 type: "string",
